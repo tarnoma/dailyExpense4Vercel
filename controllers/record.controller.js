@@ -8,7 +8,7 @@ const addNewRecord = (req, res) => {
   }
 
   let data = new Record({
-    user_id: req.body.id,
+    user_id: req.id,
     category_id: req.body.category_id,
     spent_amount: req.body.spent_amount,
     date: req.body.date,
@@ -24,7 +24,7 @@ const addNewRecord = (req, res) => {
 };
 
 const userGetRecords = (req, res) => {
-  Record.getRecords(req.body.id, (err, data) => {
+  Record.getRecords(req.id, (err, data) => {
     if (err) {
       res.status(500).send({
         message: err.message || "Error while records for users.",
