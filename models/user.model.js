@@ -2,7 +2,6 @@ const sql = require("./db.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const scKey = require("../config/jwt.config");
-const fs = require("fs");
 
 const User = function (user) {
   this.fullname = user.fullname;
@@ -10,13 +9,11 @@ const User = function (user) {
   this.username = user.username;
   this.password = user.password;
   this.img = user.img;
-  this.active = user.active;
-  this.admin = admin;
 };
 const expireTime = "1h";
 
-User.create = (newUser, result) => {
-  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+User.register = (newUser, result) => {
+  sql.query("INSERT INTO m_users SET ?", newUser, (err, res) => {
     if (err) {
       console.log("Query error: " + err);
       result(err, null);
@@ -25,7 +22,7 @@ User.create = (newUser, result) => {
     const token = jwt.sign({ id: res.insertId }, scKey.secret, {
       expiresIn: expireTime,
     });
-    console.log("Created user: ", {
+    console.log("User registered: ", {
       id: res.insertId,
       ...newUser,
       accessToken: token,
@@ -40,7 +37,7 @@ User.create = (newUser, result) => {
 
 User.checkUsername = (username, result) => {
   sql.query(
-    "SELECT * FROM users WHERE username='" + username + "'",
+    "SELECT * FROM m_users WHERE username='" + username + "'",
     (err, res) => {
       if (err) {
         console.log("Query error: " + err);
@@ -52,14 +49,14 @@ User.checkUsername = (username, result) => {
         result(null, res[0]);
         return;
       }
-      result({ kind: "not_found" }, null);
+      result({ msg: "not_found" }, null);
     }
   );
 };
 
 User.login = (account, result) => {
   sql.query(
-    "SELECT * FROM users WHERE username='" + account.username + "'",
+    "SELECT * FROM m_users WHERE username='" + account.username + "'",
     (err, res) => {
       if (err) {
         console.log("Query error: " + err);
@@ -81,13 +78,46 @@ User.login = (account, result) => {
           return;
         } else {
           console.log("Password invalid.");
-          result({ kind: "invalid_pass" }, null);
+          result({ msg: "invalid_pass" }, null);
           return;
         }
       }
-      result({ kind: "not_found" }, null);
+      result({ msg: "not_found" }, null);
     }
   );
+};
+
+User.toggleActiveById = (id, active, result) => {
+  sql.query(
+    "UPDATE m_users SET active = ? WHERE id=?",
+    [active, id],
+    (err, res) => {
+      if (err) {
+        console.log("Query error: " + err);
+        result(err, null);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        //this user id not found
+        result({ msg: "not_found" }, null);
+        //Mistake return so sent more than one response
+        return;
+      }
+      console.log("Updated user: ", { id: id, ...data });
+      result(null, { id: id, ...data });
+    }
+  );
+};
+
+User.getAllUsers = (result) => {
+  sql.query(`SELECT * FROM m_users`, (err, res) => {
+    if (err) {
+      console.log("Query error: " + err);
+      result(err, null);
+      return;
+    }
+    result(null, res);
+  });
 };
 
 module.exports = User;
