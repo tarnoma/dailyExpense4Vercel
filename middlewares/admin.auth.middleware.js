@@ -20,3 +20,5 @@ const checkAdmin = (req, res, next) => {
     }
   );
 };
+
+module.exports = checkAdmin;

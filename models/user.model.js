@@ -1,7 +1,7 @@
 const sql = require("./db.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const scKey = require("../config/jwt.config");
+const scKey = require("../configs/jwt.config");
 
 const User = function (user) {
   this.fullname = user.fullname;
