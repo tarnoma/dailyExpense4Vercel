@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const scKey = require("../configs/jwt.config");
 
 const User = function (user) {
-  this.fullname = user.fullname;
+  this.name = user.name;
   this.email = user.email;
   this.username = user.username;
   this.password = user.password;
@@ -20,6 +20,7 @@ User.register = (newUser, result) => {
       return;
     }
     const token = jwt.sign({ id: res.insertId }, scKey.secret, {
+      noTimestamp: true,
       expiresIn: expireTime,
     });
     console.log("User registered: ", {
@@ -69,7 +70,8 @@ User.login = (account, result) => {
           res[0].password
         );
         if (validPassword) {
-          const token = jwt.sign({ id: res.insertId }, scKey.secret, {
+          const token = jwt.sign({ id: res[0].id }, scKey.secret, {
+            noTimestamp: true,
             expiresIn: expireTime,
           });
           console.log("Login success. Token was generated: " + token);
@@ -103,8 +105,8 @@ User.toggleActiveById = (id, active, result) => {
         //Mistake return so sent more than one response
         return;
       }
-      console.log("Updated user: ", { id: id, ...data });
-      result(null, { id: id, ...data });
+      console.log("Updated user: ", { id: id, ...res });
+      result(null, { id: id, ...res });
     }
   );
 };

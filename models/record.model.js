@@ -26,7 +26,7 @@ Record.add = (data, result) => {
 };
 
 Record.getRecords = (id, result) => {
-  sql.query(`SELECT * FROM m_records WHERE id = ?`, id, (err, res) => {
+  sql.query(`SELECT * FROM m_records WHERE user_id = ?`, id, (err, res) => {
     if (err) {
       console.log("Query error: " + err);
       result(err, null);

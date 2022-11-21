@@ -6,6 +6,7 @@ const Category = function (category) {
   this.icon = category.icon;
   this.src = category.src;
   this.isVisible = category.isVisible;
+  if (this.isVisible == null) this.isVisible = 1;
 };
 
 Category.add = (data, result) => {
@@ -26,10 +27,10 @@ Category.add = (data, result) => {
   });
 };
 
-Category.updateById = (id, data, result) => {
+Category.updateById = (id, datas, result) => {
   sql.query(
     "UPDATE m_category SET name = ? , icon = ? , src = ? , isVisible = ? WHERE id=?",
-    [data.name, data.icon, data.src, data.isVisible, id],
+    [datas.name, datas.icon, datas.src, datas.isVisible, id],
     (err, res) => {
       if (err) {
         console.log("Query error: " + err);
@@ -42,8 +43,8 @@ Category.updateById = (id, data, result) => {
         //Mistake return so sent more than one response
         return;
       }
-      console.log("Updated category: ", { id: id, ...data });
-      result(null, { id: id, ...data });
+      console.log("Updated category: ", { id: id, ...res });
+      result(null, { id: id, ...res });
     }
   );
 };
@@ -66,8 +67,7 @@ Category.deleteById = (id, result) => {
 
 Category.getCategory = (visible, parent, result) => {
   sql.query(
-    `SELECT * FROM category WHERE isVisible = ? && parent = ?`,
-    [visible, parent],
+    `SELECT * FROM m_category WHERE ${visible} && parent ${parent}`,
     (err, res) => {
       if (err) {
         console.log("Query error: " + err);

@@ -10,7 +10,7 @@ const registerNewUser = (req, res) => {
 
   const salt = bcrypt.genSaltSync(10);
   const userObj = new User({
-    fullname: req.body.fullname,
+    name: req.body.name,
     email: req.body.email,
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, salt),

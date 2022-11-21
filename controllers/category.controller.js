@@ -1,7 +1,7 @@
 const Category = require("../models/category.model");
 
 const userGetParentCategory = (req, res) => {
-  Category.getCategory(1, NULL, (err, result) => {
+  Category.getCategory(`isVisible = 1`, "IS NULL", (err, result) => {
     if (err) {
       res.status(500).send({
         message:
@@ -12,7 +12,7 @@ const userGetParentCategory = (req, res) => {
 };
 
 const userGetChildCategory = (req, res) => {
-  Category.getCategory(1, req.params.id, (err, result) => {
+  Category.getCategory("isVisible = 1", `= ${req.params.id}`, (err, result) => {
     if (err) {
       res.status(500).send({
         message:
@@ -23,7 +23,7 @@ const userGetChildCategory = (req, res) => {
 };
 
 const adminGetParentCategory = (req, res) => {
-  Category.getCategory(0, NULL, (err, result) => {
+  Category.getCategory("1", "IS NULL", (err, result) => {
     if (err) {
       res.status(500).send({
         message:
@@ -44,7 +44,7 @@ const adminDeleteCategory = (req, res) => {
 };
 
 const adminGetChildCategory = (req, res) => {
-  Category.getCategory(0, req.params.id, (err, result) => {
+  Category.getCategory("1", `= ${req.params.id}`, (err, result) => {
     if (err) {
       res.status(500).send({
         message:
@@ -85,10 +85,10 @@ const adminUpdateCategory = (req, res) => {
   }
 
   const category = new Category({
-    parent: req.body.parent,
     name: req.body.name,
     icon: req.body.icon,
     src: req.body.src,
+    isVisible: req.body.isVisible,
   });
 
   Category.updateById(req.params.id, category, (err, result) => {

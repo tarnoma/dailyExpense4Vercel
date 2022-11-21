@@ -19,7 +19,7 @@ app.use(
 require("./routes/category.routes")(app);
 require("./routes/record.routes")(app);
 require("./routes/user.routes")(app);
-require("./app/routes/file.routes")(app);
+require("./routes/file.routes")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

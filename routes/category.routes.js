@@ -7,7 +7,7 @@ module.exports = (app) => {
   router.get("/", authJWT, category_controller.userGetParentCategory);
   router.get("/child/:id", authJWT, category_controller.userGetChildCategory);
   router.get(
-    "/admin/parent",
+    "/admin/",
     authJWT,
     authAdmin,
     category_controller.adminGetParentCategory
