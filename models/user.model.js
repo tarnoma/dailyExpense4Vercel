@@ -27,11 +27,13 @@ User.register = (newUser, result) => {
       id: res.insertId,
       ...newUser,
       accessToken: token,
+      admin: 0,
     });
     result(null, {
       id: res.insertId,
       ...newUser,
       accessToken: token,
+      admin: 0,
     });
   });
 };
