@@ -59,7 +59,9 @@ User.checkUsername = (username, result) => {
 
 User.login = (account, result) => {
   sql.query(
-    "SELECT * FROM m_users WHERE username='" + account.username + "'",
+    "SELECT * FROM m_users WHERE username='" +
+      account.username +
+      "' AND active = 1",
     (err, res) => {
       if (err) {
         console.log("Query error: " + err);

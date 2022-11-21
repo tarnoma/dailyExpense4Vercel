@@ -3,7 +3,7 @@ const sql = require("./db.model");
 const Record = function (record) {
   this.user_id = record.user_id;
   this.category_id = record.category_id;
-  this.spent_amount = record.spent_amount;
+  this.spent = record.spent;
   this.date = record.date;
 };
 

@@ -6,14 +6,13 @@ const addNewRecord = (req, res) => {
       message: "Body can not be empty.",
     });
   }
-
+  let d = new Date();
   let data = new Record({
     user_id: req.id,
     category_id: req.body.category_id,
-    spent_amount: req.body.spent_amount,
-    date: req.body.date,
+    spent: req.body.spent,
+    date: d.toLocaleDateString(),
   });
-
   Record.add(data, (err, result) => {
     if (err) {
       res.status(500).send({

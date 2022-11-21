@@ -7,6 +7,7 @@ const Category = function (category) {
   this.src = category.src;
   this.isVisible = category.isVisible;
   if (this.isVisible == null) this.isVisible = 1;
+  if (this.parent == "") this.parent = null;
 };
 
 Category.add = (data, result) => {
