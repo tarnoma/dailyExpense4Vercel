@@ -32,7 +32,29 @@ const userGetRecords = (req, res) => {
   });
 };
 
+const userGetRecordsAndCat = (req, res) => {
+  Record.getRecordsAndCat(req.id, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Error while records for users.",
+      });
+    } else res.send(data);
+  });
+};
+
+const userDeleteRecord = (req, res) => {
+  Record.deleteRecord(req.params.id, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Error while deleting category.",
+      });
+    } else res.send(data);
+  });
+};
+
 module.exports = {
   userGetRecords,
   addNewRecord,
+  userGetRecordsAndCat,
+  userDeleteRecord,
 };

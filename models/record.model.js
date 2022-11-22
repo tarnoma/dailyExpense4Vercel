@@ -36,4 +36,35 @@ Record.getRecords = (id, result) => {
   });
 };
 
+Record.getRecordsAndCat = (id, result) => {
+  sql.query(
+    `SELECT rec.id , rec.date , cat.icon , cat.name , cat.src , rec.spent FROM m_records rec INNER JOIN m_category cat ON cat.id = rec.category_id WHERE user_id = ?`,
+    id,
+    (err, res) => {
+      if (err) {
+        console.log("Query error: " + err);
+        result(err, null);
+        return;
+      }
+      result(null, res);
+    }
+  );
+};
+
+Record.deleteRecord = (id, result) => {
+  sql.query(`DELETE FROM m_records WHERE id = ${id}`, (err, res) => {
+    if (err) {
+      console.log("Query error: " + err);
+      result(err, null);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      result({ msg: "not_found" }, null);
+      return;
+    }
+    console.log("Deleted record id: ", id);
+    result(null, { id: id });
+  });
+};
+
 module.exports = Record;
