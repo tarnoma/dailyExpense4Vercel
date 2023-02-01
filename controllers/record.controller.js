@@ -11,8 +11,9 @@ const addNewRecord = (req, res) => {
     user_id: req.id,
     category_id: req.body.category_id,
     spent: req.body.spent,
-    date: d.toLocaleDateString(),
+    date: d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear(),
   });
+
   Record.add(data, (err, result) => {
     if (err) {
       res.status(500).send({
