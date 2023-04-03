@@ -1,7 +1,15 @@
 module.exports = {
-  HOST: "containers-us-west-70.railway.app",
-  USER: "root",
-  PASSWORD: "iQimTGdx3cqYhK1Gp88y",
-  DB: "railway",
-  PORT: 6511,
+  HOST: "db4free.net",
+  USER: "apollofromhell",
+  PASSWORD: "f671588e",
+  DB: "dailymonitracker",
+  PORT: 3306,
 };
+
+// module.exports = {
+//   HOST: "localhost",
+//   USER: "root",
+//   PASSWORD: "",
+//   DB: "dailymoneytracker",
+//   PORT: 3306,
+// };
